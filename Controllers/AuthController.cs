@@ -1,0 +1,91 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using CRUD_Practice.Models;
+using CRUD_Practice.Services;
+using CRUD_Practice.DTOs;
+
+namespace CRUD_Practice.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly UserDbContext _context;
+        private readonly IJwtService _jwtService;
+
+        public AuthController(UserDbContext context, IJwtService jwtService)
+        {
+            _context = context;
+            _jwtService = jwtService;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Invalid input data", errors = ModelState });
+            }
+
+            // Check if user already exists by email or username
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == registerDto.Email || u.Username == registerDto.UserName);
+
+            if (existingUser != null)
+            {
+                return BadRequest(new { message = "User with this email or username already exists" });
+            }
+
+            // Create new user
+            var newUser = new User
+            {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Username = registerDto.UserName,
+                Email = registerDto.Email,
+                Password = registerDto.Password // NOTE: In production, hash the password using BCrypt or similar!
+            };
+
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "User registered successfully" });
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Invalid input data", errors = ModelState });
+            }
+
+            // Find user by email and password
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
+
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Invalid email or password" });
+            }
+
+            // Generate JWT Token
+            var token = _jwtService.GenerateToken(user);
+
+            return Ok(new 
+            { 
+                message = "Login successful",
+                token = token,
+                user = new 
+                { 
+                    user.Id,
+                    user.Username, 
+                    user.Email, 
+                    user.FirstName, 
+                    user.LastName 
+                } 
+            });
+        }
+    }
+}
