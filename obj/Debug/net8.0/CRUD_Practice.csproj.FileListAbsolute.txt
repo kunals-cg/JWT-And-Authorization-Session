@@ -145,3 +145,9 @@ C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\runtimes\wi
 C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\publish\web.config
+C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\publish\appsettings.Development.json
+C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\publish\appsettings.json
+C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\publish\CRUD_Practice.deps.json
+C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\publish\CRUD_Practice.runtimeconfig.json
+C:\Users\KunalSharma\Desktop\Practice\CRUD_Practice\bin\Debug\net8.0\publish\CRUD_Practice.staticwebassets.endpoints.json
